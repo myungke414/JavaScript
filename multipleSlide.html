@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Document</title>
+
+    <style>
+
+    *{margin:0; padding:0;}
+
+    .slide_wrapper{position: relative;width: 1000px;margin: 0 auto;height: 400px;overflow:hidden;}
+
+    .slides{position: absolute;left:0;top:0;}
+
+    .slides.animated{transition: 0.5s ease-out;}
+
+    .slides .slides_s{width: 190px;height: 400px;background:#ccc;float:left;}
+
+    .slides .slides_s:not(:last-child){margin-right: 10px;}
+
+    .controls{text-align: center;margin-top: 50px;}
+
+    .controls span{background:#333;color: #fff;padding:10px 20px;margin:0 10px;}
+
+    </style>
+
+</head>
+
+<body>
+
+    <!-- partial:index.partial.html -->
+
+    <div class="slide_wrapper">
+
+        <div class="slides">
+
+            <div class="slides_s">slide 01</div>
+
+            <div class="slides_s">slide 02</div>
+
+            <div class="slides_s">slide 03</div>
+
+            <div class="slides_s">slide 04</div>
+
+            <div class="slides_s">slide 05</div>
+
+        </div>
+
+    </div>
+
+    <p class="controls">
+
+        <span class="prev">prev</span>
+
+        <span class="next">next</span>
+
+    </p>
+
+<script>
+
+var slides = document.querySelector('.slides'),
+
+slide = document.querySelectorAll('.slides .slides_s'),
+
+currentIdx = 0,
+
+slideCount = slide.length,
+
+slideWidth = 190,
+
+slideMargin = 10,
+
+prevBtn = document.querySelector('.prev'),
+
+nextBtn = document.querySelector('.next');
+
+makeClone();
+
+function makeClone(){
+
+    for(var i = 0; i<slideCount; i++){
+
+        //a.cloneNode(), a.cloneNode(true)
+
+        var cloneSlide = slide[i].cloneNode(true);
+
+        cloneSlide.classList.add('clone');
+
+        //a.appendChild(b)
+
+        slides.appendChild(cloneSlide);
+
+    }
+
+    for(var i = slideCount -1; i>=0; i--){
+
+        var cloneSlide = slide[i].cloneNode(true);
+
+        cloneSlide.classList.add('clone');
+
+        //a.prepend(b)
+
+        slides.prepend(cloneSlide);
+
+    }
+
+    updateWidth();
+
+    setInitialPos();
+
+    setTimeout(function(){
+
+        slides.classList.add('animated');
+
+    },100);
+
+}
+
+function updateWidth(){
+
+    var currentSlides = document.querySelectorAll('.slides .slides_s');
+
+    var newSlideCount = currentSlides.length;
+
+    var newWidth = (slideWidth + slideMargin)*newSlideCount - slideMargin + 'px';
+
+    slides.style.width = newWidth;
+
+}
+
+function setInitialPos(){
+
+    var initialTranslateValue =  -(slideWidth + slideMargin)*slideCount;
+
+    //slides {transform:translateX(-1000px);}           
+
+    slides.style.transform = 'translateX(' + initialTranslateValue+'px)';
+
+}
+
+nextBtn.addEventListener('click',function(){
+
+    moveSlide(currentIdx + 1);
+
+});
+
+prevBtn.addEventListener('click',function(){
+
+    moveSlide(currentIdx - 1);
+
+});
+
+function moveSlide(num){
+
+    slides.style.left = -num * (slideWidth + slideMargin) +'px';
+
+    currentIdx = num;
+
+    console.log(currentIdx, slideCount);    
+
+    if(currentIdx == slideCount || currentIdx == -slideCount){
+
+        setTimeout(function(){
+
+            slides.classList.remove('animated');
+
+            slides.style.left = '0px';
+
+            currentIdx = 0;
+
+        },500);
+
+        setTimeout(function(){
+
+            slides.classList.add('animated');
+
+        },600);
+
+    }
+
+}
+
+</script>
+
+</body>
+
+</html>

@@ -39,7 +39,6 @@
           <div class="slide slide03">3</div>
           <div class="slide slide04">4</div>
           <div class="slide slide05">5</div>
-          <div class="slide slide05">6</div>
         </div>
 
       </div>
@@ -56,22 +55,22 @@
         
 <script>
   const slideList = document.querySelector('.slide_list'),  // Slide parent dom
-            slideContents = document.querySelectorAll('.slide'),  // each slide dom
-            slideBtnNext = document.querySelector('.next'), // next button
-            slideBtnPrev = document.querySelector('.prev'), // prev button
-            pagination = document.querySelector('.pagination'),
-            slideLen = slideContents.length,  // slide length
-            slideWidth = 400, // slide width
-            slideSpeed = 300, // slide speed
-            startNum = 0; // initial slide index (0 ~ 4)
+        slideContents = document.querySelectorAll('.slide'),  // each slide dom
+        slideBtnNext = document.querySelector('.next'), // next button
+        slideBtnPrev = document.querySelector('.prev'), // prev button
+        pagination = document.querySelector('.pagination'),
+        slideLen = slideContents.length,  // slide length
+        slideWidth = 400, // slide width
+        slideSpeed = 300, // slide speed
+        startNum = 0; // initial slide index (0 ~ 4)
   
   slideList.style.width = slideWidth * (slideLen + 2) + "px";
   
   // Copy first and last slide
   let firstChild = slideList.firstElementChild,
-       lastChild = slideList.lastElementChild,
-       clonedFirst = firstChild.cloneNode(true),
-       clonedLast = lastChild.cloneNode(true);
+      lastChild = slideList.lastElementChild,
+      clonedFirst = firstChild.cloneNode(true),
+      clonedLast = lastChild.cloneNode(true);
 
   // Add copied Slides
   slideList.appendChild(clonedFirst);
@@ -80,9 +79,9 @@
   // Add pagination dynamically
   let pageChild = '';
   for (var i = 0; i < slideLen; i++) {
-    pageChild += '<li class="dot';
-    pageChild += (i === startNum) ? ' dot_active' : '';
-    pageChild += '" data-index="' + i + '"><a href="#"></a></li>';
+      pageChild += '<li class="dot';
+      pageChild += (i === startNum) ? ' dot_active' : '';
+      pageChild += '" data-index="' + i + '"><a href="#"></a></li>';
   }
   pagination.innerHTML = pageChild;
   const pageDots = document.querySelectorAll('.dot'); // each dot from pagination
@@ -90,21 +89,21 @@
   slideList.style.transform = "translate3d(-" + (slideWidth * (startNum + 1)) + "px, 0px, 0px)";
 
   let curIndex = startNum, // current slide index (except copied slide)
-       curSlide = slideContents[curIndex]; // current slide dom
+      curSlide = slideContents[curIndex]; // current slide dom
   curSlide.classList.add('slide_active');
 
   /* Next Button Event */
   slideBtnNext.addEventListener('click', function() {
     if (curIndex <= slideLen - 1) {
-      slideList.style.transition = slideSpeed + "ms";
-      slideList.style.transform = "translate3d(-" + (slideWidth * (curIndex + 2)) + "px, 0px, 0px)";
+       slideList.style.transition = slideSpeed + "ms";
+       slideList.style.transform = "translate3d(-" + (slideWidth * (curIndex + 2)) + "px, 0px, 0px)";
     }
     if (curIndex === slideLen - 1) {
-      setTimeout(function() {
-        slideList.style.transition = "0ms";
-        slideList.style.transform = "translate3d(-" + slideWidth + "px, 0px, 0px)";
-      }, slideSpeed);
-      curIndex = -1;
+       setTimeout(function() {
+       slideList.style.transition = "0ms";
+       slideList.style.transform = "translate3d(-" + slideWidth + "px, 0px, 0px)";
+       }, slideSpeed);
+    curIndex = -1;
     }
     curSlide.classList.remove('slide_active');
     pageDots[(curIndex === -1) ? slideLen - 1 : curIndex].classList.remove('dot_active');
@@ -116,15 +115,15 @@
   /* Prev Button Event */
   slideBtnPrev.addEventListener('click', function() {
     if (curIndex >= 0) {
-      slideList.style.transition = slideSpeed + "ms";
-      slideList.style.transform = "translate3d(-" + (slideWidth * curIndex) + "px, 0px, 0px)";
+       slideList.style.transition = slideSpeed + "ms";
+       slideList.style.transform = "translate3d(-" + (slideWidth * curIndex) + "px, 0px, 0px)";
     }
     if (curIndex === 0) {
-      setTimeout(function() {
-        slideList.style.transition = "0ms";
-        slideList.style.transform = "translate3d(-" + (slideWidth * slideLen) + "px, 0px, 0px)";
-      }, slideSpeed);
-      curIndex = slideLen;
+       setTimeout(function() {
+       slideList.style.transition = "0ms";
+       slideList.style.transform = "translate3d(-" + (slideWidth * slideLen) + "px, 0px, 0px)";
+       }, slideSpeed);
+    curIndex = slideLen;
     }
     curSlide.classList.remove('slide_active');
     pageDots[(curIndex === slideLen) ? 0 : curIndex].classList.remove('dot_active');
@@ -136,7 +135,7 @@
   /* Pagination Button Event */
   let curDot;
   Array.prototype.forEach.call(pageDots, function (dot, i) {
-    dot.addEventListener('click', function (e) {
+  dot.addEventListener('click', function (e) {
       e.preventDefault();
       curDot = document.querySelector('.dot_active');
       curDot.classList.remove('dot_active');
